@@ -35,6 +35,11 @@ export class Manager {
 
   public register(dependency: Dependency) {
     this.dependencies.add(dependency);
+
+    // Run the first check async so that its entry is added to the statusCache
+    // on the first run
+    isHealthy(dependency).then(healthy => this.statusCache.set(dependency.name, healthy));
+
     const scheduleId = setInterval(
       async () => {
         // TODO memoize lookup to determine circuit-breaker state
