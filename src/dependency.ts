@@ -12,17 +12,21 @@ export interface Dependency {
 }
 
 // isHealthy will resolve the health of a dependency or any of its children
-export async function isHealthy (dep: Dependency) : Promise<boolean> {
-  if (!(await dep.resolver())) {
-    return false;
+export async function isHealthy (dep: Dependency, memo?: Map<string, boolean>) : Promise<boolean> {
+  // Short-circuit if we've already checked this dependency. This will prevent
+  // cycles
+  if (memo && memo.has(dep.name)) {
+    const check = memo.get(dep.name);
+    if (typeof check === "boolean") { return check; }
   }
 
-  // TODO check for cycles
+  const check = await dep.resolver();
+  if (memo) { memo.set(dep.name, check); }
+  if (!check) { return false; }
+
   // TODO decide between early exits and parallelizing
   for (const child of dep.dependencies) {
-    if (!(await isHealthy(child))) {
-      return false;
-    }
+    if (!(await isHealthy(child, memo))) { return false; }
   }
 
   return true;
