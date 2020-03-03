@@ -4,15 +4,17 @@
   "main": "index.js",
   "license": "MIT",
   "devDependencies": {
-    "prettier-standard": "^16.1.0"
+    "prettier-standard": "^16.1.0",
+    "typescript": "^3.8.3"
   },
   "scripts": {
     "build": "tsc",
-    "format": "prettier-standard --parser typescript --format"
+    "format": "prettier-standard --format"
   },
   "dependencies": {
     "@types/express": "^4.17.2",
     "@types/node": "^13.7.7",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "global": "^4.4.0"
   }
 }

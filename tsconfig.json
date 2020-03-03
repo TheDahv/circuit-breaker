@@ -22,15 +22,9 @@
     "strictBindCallApply": true,
     "strictFunctionTypes": true,
     "strictNullChecks": true,
-    "target": "es6",
+    "target": "es6"
   },
-  "files": [
-    "types/request-circuit-breaker.d.ts",
-  ],
-  "include": [
-    "src/**/*"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "files": ["types/request-circuit-breaker.d.ts"],
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
 }
