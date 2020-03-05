@@ -17,9 +17,13 @@ interface Failure {
   error: Error
 }
 
-type Result = Success | Failure
+export type Result = Success | Failure
 
-const jsonReq = (options: RequestOptions): Promise<Result> => {
+interface DatadogFetcher {
+  (options: RequestOptions): Promise<Result>
+}
+
+const HttpFetcher = (options: RequestOptions): Promise<Result> => {
   return new Promise((resolve, reject) => {
     const req = request(options, resp => {
       let data = ''
@@ -52,11 +56,12 @@ export class Dependency implements Base {
     this.dependencies = []
   }
 
+  public fetcher?: DatadogFetcher
   public dependencies: Dependency[]
 
-  resolver = async (): Promise<boolean> => {
-    // TODO implement Datadog lookup via API
-    const resp = await jsonReq({
+  // https://docs.datadoghq.com/api/?lang=bash#get-a-monitor-s-details
+  public fetchOptions (): RequestOptions {
+    return {
       headers: {
         'Content-Type': 'application/json',
         'DD-API-KEY': this.apiKey,
@@ -66,12 +71,18 @@ export class Dependency implements Base {
       port: 443,
       path: `/api/v1/monitor/${this.monitorId}`,
       method: 'GET'
-    })
+    }
+  }
+
+  resolver = async (): Promise<boolean> => {
+    const fetch = this.fetcher || HttpFetcher
+    const resp = await fetch(this.fetchOptions())
 
     switch (resp.status) {
       case 'success':
         return resp.value.overall_state === 'OK'
       case 'failure': {
+        // TODO replace with injectable logger
         console.error({
           log: 'unable to process datadog response',
           error: resp.error

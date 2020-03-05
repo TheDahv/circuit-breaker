@@ -1,6 +1,8 @@
+import { RequestOptions } from 'https'
 import { expect } from 'chai'
 
-import { Dependency, isHealthy } from '../dependency'
+import { Datadog, Dependency, isHealthy } from '../dependency'
+import { Result } from '../dependency/datadog'
 
 describe('Dependency', function () {
   describe('isHealthy', function () {
@@ -130,6 +132,72 @@ describe('Dependency', function () {
 
         expect(await isHealthy(red)).to.be.ok
       })
+    })
+  })
+})
+
+const successFetcher = (_options: RequestOptions): Promise<Result> => {
+  return Promise.resolve({
+    status: 'success',
+    value: {
+      overall_state: 'OK'
+    }
+  })
+}
+const alertFetcher = (_options: RequestOptions): Promise<Result> => {
+  return Promise.resolve({
+    status: 'success',
+    value: {
+      overall_state: 'Alert'
+    }
+  })
+}
+const failureFetcher = (_options: RequestOptions): Promise<Result> => {
+  return Promise.resolve({
+    status: 'failure',
+    error: new Error('test error')
+  })
+}
+
+describe('Datadog Dependency', function () {
+  describe('fetchOptions', function () {
+    it('should return well-formed request options', function () {
+      const dd = new Datadog('datadog', 'api-key', 'app-key', '12345', 0)
+      const options = dd.fetchOptions()
+
+      const headers = options.headers
+      expect(headers).to.exist
+      // Just making typescript happy...
+      if (headers) {
+        expect(headers['Content-Type']).to.eql('application/json')
+        expect(headers['DD-API-KEY']).to.eql('api-key')
+        expect(headers['DD-APPLICATION-KEY']).to.eql('app-key')
+      }
+
+      expect(options.path).to.eql('/api/v1/monitor/12345')
+      expect(options.method).to.eql('GET')
+    })
+  })
+
+  describe('when Datadog returns expected JSON', function () {
+    it('should resolve to true for an OK response', async function () {
+      const dd = new Datadog('datadog', '', '', '', 0)
+      dd.fetcher = successFetcher
+      expect(await dd.resolver()).to.be.ok
+    })
+
+    it('should resolve to false for an Alert response', async function () {
+      const dd = new Datadog('datadog', '', '', '', 0)
+      dd.fetcher = alertFetcher
+      expect(await dd.resolver()).to.not.be.ok
+    })
+  })
+
+  describe('when Datadog is unreachable', function () {
+    it('should resolve to true', async function () {
+      const dd = new Datadog('datadog', '', '', '', 0)
+      dd.fetcher = failureFetcher
+      expect(await dd.resolver()).to.be.ok
     })
   })
 })
