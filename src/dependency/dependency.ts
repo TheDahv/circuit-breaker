@@ -16,9 +16,13 @@ export async function isHealthy (
   dep: Dependency,
   memo?: Map<string, boolean>
 ): Promise<boolean> {
+  if (!memo) {
+    memo = new Map<string, boolean>()
+  }
+
   // Short-circuit if we've already checked this dependency. This will prevent
   // cycles
-  if (memo && memo.has(dep.name)) {
+  if (memo.has(dep.name)) {
     const check = memo.get(dep.name)
     if (typeof check === 'boolean') {
       return check

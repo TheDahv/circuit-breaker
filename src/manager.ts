@@ -44,6 +44,15 @@ export class Manager {
 
   public register (...dependencies: Dependency[]) {
     for (const dependency of dependencies) {
+      if (this.dependencies.has(dependency)) {
+        // Note: we need a check here because Set.add isn't totally idempotent.
+        // It will *replace* whatever was in there before, but the pre-existing
+        // item will have its callback registered with the setInterval runtime.
+        // That would create a memory leak and would also keep the event loop
+        // stuck open because there is a callback registered that we can't clear
+        continue
+      }
+
       this.dependencies.add(dependency)
 
       // Run the first check async so that its entry is added to the statusCache
@@ -61,8 +70,13 @@ export class Manager {
     }
   }
 
+  public size (): number {
+    return this.dependencies.size
+  }
+
   public shutdown () {
     this.schedules.forEach(timerId => clearInterval(timerId))
+    this.schedules.clear()
     this.statusCache.clear()
     this.dependencies.clear()
     Manager.instance = undefined
