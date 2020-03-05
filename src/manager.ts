@@ -1,6 +1,15 @@
+import 'mocha'
 import { RequestHandler } from 'express'
 
 import { Dependency, isHealthy } from './dependency'
+
+export interface Edge {
+  source: string
+  target: string
+}
+const edgeToString = (edge: Edge): string => {
+  return `${edge.source} -> ${edge.target}`
+}
 
 export class Manager {
   private static instance?: Manager
@@ -58,5 +67,36 @@ export class Manager {
     this.statusCache.clear()
     this.dependencies.clear()
     Manager.instance = undefined
+  }
+
+  public adjacencyList (): Edge[] {
+    const graph = new Map<string, Edge>()
+    const sources = [
+      { name: 'root', dependencies: Array.from(this.dependencies) }
+    ]
+
+    while (sources.length) {
+      const source = sources.pop()
+      if (!source) {
+        break
+      }
+
+      for (const target of source.dependencies) {
+        const edge: Edge = { source: source.name, target: target.name }
+        const edgeId = edgeToString(edge)
+
+        // Prevent following cycles
+        if (graph.has(edgeId)) {
+          continue
+        }
+
+        graph.set(edgeId, edge)
+        if (target.dependencies.length) {
+          sources.push(...target.dependencies)
+        }
+      }
+    }
+
+    return Array.from(graph.values())
   }
 }
