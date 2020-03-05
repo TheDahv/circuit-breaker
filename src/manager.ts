@@ -54,7 +54,6 @@ export class Manager {
 
       const scheduleId = setInterval(async () => {
         // TODO memoize lookup to determine circuit-breaker state
-        // TODO Check for cycles
         const healthy = await isHealthy(dependency)
         this.statusCache.set(dependency.name, healthy)
       }, dependency.intervalMs)
