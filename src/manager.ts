@@ -1,4 +1,3 @@
-import 'mocha'
 import { RequestHandler } from 'express'
 
 import { Dependency, isHealthy } from './dependency'
