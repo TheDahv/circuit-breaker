@@ -1,0 +1,298 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>circuit-breaker</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">circuit-breaker</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="globals.html">Globals</a>
+				</li>
+			</ul>
+			<h1>circuit-breaker</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#circuit-breaker" id="circuit-breaker" style="color: inherit; text-decoration: none;">
+					<h1>Circuit Breaker</h1>
+				</a>
+				<p>Automated monitoring and response for service dependencies, especially for
+				services built with Node.js and Express.</p>
+				<p>(Also, an excuse for me to learn Typescript)</p>
+				<a href="#disclaimer" id="disclaimer" style="color: inherit; text-decoration: none;">
+					<h2>Disclaimer</h2>
+				</a>
+				<p>This is not recommended for production use. I wanted an interesting reason to
+					learn Typescript and this was an idea that has been in my head for a while based
+				on things I wish I had for systems I manage.</p>
+				<p>With some work and more testing, this could be a real project that I&#39;d recommend
+				trying. I&#39;ll remove this dislaimer at that time.</p>
+				<a href="#motivation" id="motivation" style="color: inherit; text-decoration: none;">
+					<h2>Motivation</h2>
+				</a>
+				<p>Your service probably depends on other resources to function. When one of them
+					is suffering an outage or degradation, your service needs to behave in a
+				resilient and responsible way that protects resources.</p>
+				<p>For example, you may need to pause recurring jobs if a dependency is
+					unavailable. Consumers may need to stop queue consumption if every message
+				depending on a resource will fail.</p>
+				<p>Your engineering team needs to understand:</p>
+				<ul>
+					<li>how to know when a dependency fails</li>
+					<li>what parts of the system depended on that resource</li>
+					<li>what to pause or change in the service until dependencies are healthy</li>
+					<li>what and where to message to a customer to indicate service issues</li>
+					<li>when and how to revert that change when the dependencies recover</li>
+				</ul>
+				<p>Circuit Breaker allows engineering teams to declare dependencies, monitor them,
+					and write systems that can automatically respond to changes in dependency
+				health.</p>
+				<p>If you already have monitors and runbooks to respond to errors, Circuit Breaker
+					can let you implement your runbooks in code so your system can do them
+				instead.</p>
+				<p>No more scrambling to find documentation. No more trying to remember what
+					features depend on a degraded service. No more forgetting to turn a cron back on
+				when the service recovers.</p>
+				<a href="#how-it-works" id="how-it-works" style="color: inherit; text-decoration: none;">
+					<h2>How it Works</h2>
+				</a>
+				<p>Engineers can model service dependencies in code. Circuit Breaker needs to know:</p>
+				<ul>
+					<li>name: the name of the dependency</li>
+					<li>resolver: how to check the health of a dependency and resolve it to &quot;true&quot; or
+					&quot;false&quot; to indicate health</li>
+					<li>interval: how often to check a dependency</li>
+					<li>dependencies: any sub-dependencies that would also impact the health of this
+					dependency</li>
+				</ul>
+				<p>A manager registers these dependencies and monitors their health on the
+					specified interval. The health for each dependency is cached and made available
+					to the system. When a dependency becomes unavailable, Circuit Breaker will
+					continue to monitor the dependency so the system knows when the outage is
+				resolved.</p>
+				<p>Engineering teams can use that state to automatically respond to dependency
+				issues:</p>
+				<ul>
+					<li>return a specific status code from an API endpoint when a dependency is down</li>
+					<li>pause work queues when a dependency is down, and automatically resume when
+					they come up</li>
+					<li>suspend crons or other job recurrence managers and automatically resume them
+					when they come up</li>
+					<li>render a warning UI or a maintenance notification to users so your system can
+						start communicating to users before your customer service team is even aware
+					there is a problem</li>
+				</ul>
+				<p><strong>NOTE</strong> it is up to the maintainers of the system to implement the automated
+				response. Circuit Breaker just provides the dependency graph state.</p>
+				<p>There are times where you may not want an automated response if it would be
+					better to fail and force a human to get involved. In cases where the team
+					<em>knows</em> it wants something to happen automatically and not wait for a human,
+				Circuit Breaker can help.</p>
+				<p>Run <code>yarn run docs</code> to generate code documentation in the <code>docs</code> directory on
+				your computer.</p>
+				<a href="#datadog-integration" id="datadog-integration" style="color: inherit; text-decoration: none;">
+					<h3>Datadog Integration</h3>
+				</a>
+				<p><a href="https://www.datadoghq.com/">Datadog</a> is a fantastic service for monitoring
+					cloud infrastructure. One common approach to turning metrics into insights about
+					health are its
+				<a href="https://docs.datadoghq.com/monitors/monitor_types/#create">Monitor</a> feature.</p>
+				<p>This pattern is common enough that Circuit Breaker includes an integration.
+					Given credentials to talk to the Datadog API and a Monitor ID, developers can
+				model a dependency by watching a Datadog monitor.</p>
+				<a href="#express-integration" id="express-integration" style="color: inherit; text-decoration: none;">
+					<h3>Express Integration</h3>
+				</a>
+				<p>Circuit Breaker is designed with Node.js servers written with Express in mind.
+					It exposes a middleware that injects the dependency health cache into the
+				<code>req.circuitBreaker</code> object.</p>
+				<p>For example:</p>
+				<pre><code><span class="hljs-keyword">const</span> manager = Manager.<span class="hljs-built_in">get</span>();
+manager.register(dependency1, dependency2);
+
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">app</span> = express();
+<span class="hljs-keyword">app</span>.<span class="hljs-keyword">use</span>(manager.middleware());
+
+<span class="hljs-keyword">app</span>.<span class="hljs-built_in">get</span>('/', (req, res, next) =&gt; {
+  <span class="hljs-keyword">if</span> (!(req.circuitBreaker.dependency1 || req.circuitBreaker.dependency2)) {
+    <span class="hljs-keyword">return</span> res.status(500).json({ message: 'try again later!' });
+  }
+});</code></pre><p>See the <code>examples</code> folder for some examples you can run yourself.</p>
+				<a href="#alternatives" id="alternatives" style="color: inherit; text-decoration: none;">
+					<h2>Alternatives</h2>
+				</a>
+				<p>I&#39;m definitely not the first person to think about this. Here are some other
+				systems to look at if you&#39;re interested in commercial or larger solutions:</p>
+				<ul>
+					<li><a href="https://docs.microsoft.com/en-us/azure/azure-monitor/app/asp-net-dependencies">Azure Application
+						Insights</a>
+					to automatically discover and monitor dependencies from the .NET ecosystem</li>
+					<li><a href="https://www.dynatrace.com/platform/application-topology-discovery/smartscape/">Dynatrace</a>
+					to monitor traffic through your network and find dependencies</li>
+				</ul>
+				<a href="#planned-work" id="planned-work" style="color: inherit; text-decoration: none;">
+					<h2>Planned Work</h2>
+				</a>
+				<ul>
+					<li>Dependency graph modeling with <a href="https://js.cytoscape.org/">Cytoscape.js</a></li>
+					<li>Admin panel<ul>
+							<li>a UI to render the dependency graph</li>
+							<li>manual muting and resolution of dependencies</li>
+						</ul>
+					</li>
+					<li>HTTP API server<ul>
+							<li>allow services that don&#39;t use Express to leverage Circuit Breaker for the
+							dependency graph resolution and monitoring</li>
+						</ul>
+					</li>
+					<li>Implement other common Dependency patterns<ul>
+							<li>model a dependency as a database connection and a SQL query</li>
+						</ul>
+					</li>
+					<li>Support more states than &quot;Healthy&quot; and &quot;Not Healthy&quot;<ul>
+							<li>track backoffs for rate-limited dependencies</li>
+							<li>model degradations or warnings for systems to respond to</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class="globals  ">
+						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/dependency.html">dependency</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/dependency_datadog.html">dependency/datadog</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/manager.html">manager</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
+				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
+				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
+				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
+</body>
+</html>
