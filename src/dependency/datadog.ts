@@ -33,7 +33,7 @@ const DATADOG_HOST = 'api.datadoghq.com'
  * Once you have all that, create a Datadog Dependency and the class will do the
  * rest for you.
  */
-export class Dependency implements Base {
+export class DatadogDependency implements Base {
   /**
    * @param name The identifier for the dependency in your dependency graph
    * @param apiKey The authentication key used to communicate with the Datadog
@@ -64,7 +64,7 @@ export class Dependency implements Base {
    * Allows Datadog to implement the [[Dependency]] interface. Not really
    * relevant here.
    */
-  public dependencies: Dependency[]
+  public dependencies: DatadogDependency[]
 
   /**
    * See https://docs.datadoghq.com/api/?lang=bash#get-a-monitor-s-details
