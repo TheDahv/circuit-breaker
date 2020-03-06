@@ -1,3 +1,8 @@
+/**
+ * @packageDocumentation
+ * @module manager
+ */
+
 import { RequestHandler } from 'express'
 
 import { Dependency, isHealthy } from './dependency'

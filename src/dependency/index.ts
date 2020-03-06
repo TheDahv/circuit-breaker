@@ -1,2 +1,7 @@
+/**
+ * @packageDocumentation
+ * @module dependency
+ */
+
 export * from './dependency'
-export { Dependency as Datadog } from './datadog'
+export { DatadogDependency as Datadog } from './datadog'

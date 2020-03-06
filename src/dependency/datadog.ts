@@ -1,3 +1,8 @@
+/**
+ * @packageDocumentation
+ * @module dependency/datadog
+ */
+
 import { request, RequestOptions } from 'https'
 
 import { Dependency as Base } from './dependency'

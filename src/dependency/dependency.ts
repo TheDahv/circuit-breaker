@@ -1,4 +1,9 @@
 /**
+ * @packageDocumentation
+ * @module dependency
+ */
+
+/**
  * A dependency models an external resource that could go down or become
  * unavailable.
  *
