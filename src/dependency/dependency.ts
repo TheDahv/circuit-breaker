@@ -1,17 +1,42 @@
+/**
+ * A dependency models an external resource that could go down or become
+ * unavailable.
+ *
+ * Each dependency declares how to resolve its health and how often a [[Manager]]
+ * should check for health.
+ */
 export interface Dependency {
-  // name is an identifier for the dependency
+  /**
+   * name is an identifier for the dependency
+   */
   name: string
-  // resolver is an asynchronous function that determines if our dependency is
-  // healthy. It will return false if any of its dependencies is also not
-  // healthy.
+  /**
+   * resolver is an asynchronous function that determines if our dependency is
+   * healthy.
+   *
+   * It will return false if any of its dependencies is also not healthy.
+   */
   resolver: () => Promise<boolean>
-  // intervalMs defines how often a dependency should be checked
+  /**
+   * intervalMs defines how often to check a dependency in milliseconds
+   */
   intervalMs: number
-  // dependencies are child-dependencies that this dependency may depend on
+  /**
+   * dependencies are child-dependencies that this dependency may depend on
+   */
   dependencies: Dependency[]
 }
 
-// isHealthy will resolve the health of a dependency or any of its children
+/**
+ * isHealthy will resolve the health of a dependency or any of its children
+ *
+ * It checks for cycles to prevent following loops indefinitely. If the caller
+ * does not provide a memo function, the function creates its own.
+ *
+ * @param dep The dependency to check
+ * @param memo Used to watch for cycles and cache lookups
+ * @returns An indication of whether the dependency is determined to be healthy
+ */
 export async function isHealthy (
   dep: Dependency,
   memo?: Map<string, boolean>

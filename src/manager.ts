@@ -2,24 +2,56 @@ import { RequestHandler } from 'express'
 
 import { Dependency, isHealthy } from './dependency'
 
-export interface Edge {
-  source: string
-  target: string
-}
-const edgeToString = (edge: Edge): string => {
-  return `${edge.source} -> ${edge.target}`
-}
-
+/**
+ * # Manager
+ *
+ * The manager runs the monitoring on registered dependencies and reports their
+ * cached state to any clients.
+ *
+ * It also exposes the middleware for use with Express servers.
+ *
+ * ## Usage
+ *
+ * There should only be one manager for any given running system. Anywhere you
+ * need to use a manager, call the "get" method:
+ *
+ * ```
+ * const manager = Manager.get();
+ * ```
+ *
+ * This means you can register a [[Dependency]] and access the manager from
+ * different parts of your system.
+ */
 export class Manager {
   private static instance?: Manager
 
   // Prevent creating a manager with "new"
   private constructor () {}
 
+  // prevents adding duplicate instances of a given dependency
   private dependencies: Set<Dependency>
+  // holds Timeout IDs returned from setInterval so we can delete them later on
+  // shutdown
   private schedules: Map<string, NodeJS.Timeout>
+  // holds the most recently resolved dependency state for fast communication
+  // to clients
   private statusCache: Map<string, boolean>
 
+  /**
+   * middleware allows clients to integrate Circuit Breaker with an Express app.
+   * Dependency state will be exposed on the `circuitBreaker` field of the
+   * request object.
+   *
+   * ```
+   * const m = Manager.get()
+   * app.use(m.middleware())
+   * app.get('/', (req, res) => {
+   *   res.json(req.circuitBreaker);
+   * })
+   * ```
+   *
+   * @returns A middleware for use in an Express app
+   */
   public middleware (): RequestHandler {
     return (req, res, next) => {
       req.circuitBreaker = this.statusCache
@@ -27,7 +59,14 @@ export class Manager {
     }
   }
 
-  // clients should call "get" to interact with the manager
+  /**
+   * get returns the system-wide instance of the manager.
+   *
+   * Clients should call this static method rather than trying to create a new
+   * Manager with "new".
+   *
+   * @returns the system-wide Manager instance
+   */
   public static get (): Manager {
     if (!Manager.instance) {
       const instance = new Manager()
@@ -41,6 +80,16 @@ export class Manager {
     return Manager.instance
   }
 
+  /**
+   * register adds one or more [[Dependency]] instances to the Manager.
+   *
+   * Duplicate dependencies are automatically detected and won't be registered
+   * more than once.
+   *
+   * A dependency is resolved in the background when it is first added. This
+   * also registers a check on the specified interval and its recurrence is
+   * managed by the Manager.
+   */
   public register (...dependencies: Dependency[]) {
     for (const dependency of dependencies) {
       if (this.dependencies.has(dependency)) {
@@ -69,10 +118,18 @@ export class Manager {
     }
   }
 
+  /**
+   * @returns The number of registered dependencies
+   */
   public size (): number {
     return this.dependencies.size
   }
 
+  /**
+   * shutdown removes all registered dependencies and cancels recurring checks.
+   *
+   * A subsequent call to `Manager.get` will create a new empty Manager.
+   */
   public shutdown () {
     this.schedules.forEach(timerId => clearInterval(timerId))
     this.schedules.clear()
@@ -81,6 +138,14 @@ export class Manager {
     Manager.instance = undefined
   }
 
+  /**
+   * adjacencyList returns a representation of the dependency graph as a list of
+   * [[Edge]] instances.
+   *
+   * A graphing library can use the adjacency list to visualize the graph.
+   *
+   * @returns The relationships among the service and all dependencies.
+   */
   public adjacencyList (): Edge[] {
     const graph = new Map<string, Edge>()
     const sources = [
@@ -111,4 +176,23 @@ export class Manager {
 
     return Array.from(graph.values())
   }
+}
+
+/**
+ * # Edge
+ *
+ * Relationships between a service and a dependency -- or a dependency and
+ * another dependency -- is represented as a graph edge.
+ */
+export interface Edge {
+  source: string
+  target: string
+}
+
+/**
+ * @returns The directional relationship of two [[Dependency]] nodes in a
+ * dependency graph.
+ */
+const edgeToString = (edge: Edge): string => {
+  return `${edge.source} -> ${edge.target}`
 }

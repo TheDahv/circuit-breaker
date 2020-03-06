@@ -10,12 +10,14 @@
     "mocha": "^7.1.0",
     "prettier-standard": "^16.1.0",
     "ts-node": "^8.6.2",
+    "typedoc": "^0.16.11",
     "typescript": "^3.8.3"
   },
   "scripts": {
     "build": "tsc",
     "format": "prettier-standard --format",
-    "test": "TS_NODE_FILES=true mocha -r ts-node/register test/**/*.spec.ts"
+    "test": "TS_NODE_FILES=true mocha -r ts-node/register test/**/*.spec.ts",
+    "docs": "typedoc"
   },
   "dependencies": {
     "@types/express": "^4.17.2",

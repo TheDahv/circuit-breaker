@@ -1,0 +1,15 @@
+{
+  "includeDeclarations": true,
+  "inputFiles": ["src", "types"],
+  "exclude": [
+    "examples/**",
+    "test/**",
+    "node_modules"
+  ],
+  "excludeExternals": true,
+  "excludeNotExported": true,
+  "excludePrivate": true,
+  "excludeNotDocumented": true,
+  "excludeProtected": true,
+  "out": "docs"
+}
