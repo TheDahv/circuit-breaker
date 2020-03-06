@@ -1,7 +1,7 @@
 import { expect } from 'chai'
 
-import { Dependency } from '../dependency'
-import { Edge, Manager } from '../manager'
+import { Dependency } from '../src/dependency'
+import { Edge, Manager } from '../src/manager'
 
 describe('Manager', function () {
   describe('get', function () {

@@ -1,8 +1,8 @@
 import { RequestOptions } from 'https'
 import { expect } from 'chai'
 
-import { Datadog, Dependency, isHealthy } from '../dependency'
-import { Result } from '../dependency/datadog'
+import { Datadog, Dependency, isHealthy } from '../src/dependency'
+import { Result } from '../src/dependency/datadog'
 
 describe('Dependency', function () {
   describe('isHealthy', function () {

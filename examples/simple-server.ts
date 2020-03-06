@@ -1,7 +1,7 @@
 import * as express from 'express'
 
-import { Dependency } from '../dependency'
-import { Manager } from '../manager'
+import { Dependency } from '../src/dependency'
+import { Manager } from '../src/manager'
 
 const dependency: Dependency = {
   name: 'test',
