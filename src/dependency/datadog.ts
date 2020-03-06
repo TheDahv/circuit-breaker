@@ -98,6 +98,8 @@ export class Dependency implements Base {
     const fetch = this.fetcher || HttpFetcher
     const resp = await fetch(this.fetchOptions())
 
+    // Note, available responses are OK, Alert, Warn, No Data
+    // TODO Decide whether to default to False Positive on No Data
     switch (resp.status) {
       case 'success':
         return resp.value.overall_state === 'OK'
