@@ -55,6 +55,8 @@ export const Container = (props: GridProps) => {
   return <div className={className}>{props.children}</div>
 }
 
+Container.displayName = 'Container'
+
 /**
  * Row lays out horizontally-grouped Col elements along a 12 column grid
  *
@@ -64,6 +66,8 @@ export const Row = (props: GridProps) => {
   const className = `row ${props.section ? 'section' : ''}`
   return <div className={className}>{props.children}</div>
 }
+
+Row.displayName = 'Row'
 
 /**
  * ColProps configure a Col element in a row. At minimum, the Col needs to
@@ -171,8 +175,12 @@ export const Col = (props: ColProps) => {
   return <div className={className}>{props.children}</div>
 }
 
+Col.displayName = 'Col'
+
 /**
  * Dividers are 1 pixel lines that help break up your content. Just add the
  * divider to a div in between your content.
  */
 export const Divider = () => <div className='divider' />
+
+Divider.displayName = 'Divider'
