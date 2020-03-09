@@ -62,9 +62,18 @@ export const server = (manager: Manager, prefix?: string): Express.Router => {
   const server = Express.Router()
 
   server.get('/', (req, res, next) => {
+    const dependencies = manager.dependencyStatusList()
+
     ReactDOMServer.renderToNodeStream(
-      React.createElement(Admin, { prefix: prefix || serverConfig.defaults.prefix })
+      React.createElement(Admin, {
+        prefix: prefix || serverConfig.defaults.prefix,
+        dependencies: dependencies
+      })
     ).pipe(res)
+  })
+
+  server.get('/api/dependencies', (req, res) => {
+    res.json(manager.dependencyStatusList())
   })
 
   server.use('/vendor', serveJsFolder('../node_modules'))

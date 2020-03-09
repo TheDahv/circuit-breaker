@@ -143,6 +143,10 @@ export class Manager {
     Manager.instance = undefined
   }
 
+  public dependencyStatusList () {
+    return Array.from(this.statusCache.entries())
+  }
+
   /**
    * adjacencyList returns a representation of the dependency graph as a list of
    * [[Edge]] instances.

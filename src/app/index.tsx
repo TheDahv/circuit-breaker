@@ -17,11 +17,18 @@ interface CircuitBreakerWindow extends Window {
 }
 
 const App = () => {
-  // TODO use these variables
-  // const _window: CircuitBreakerWindow = window
-  // const prefix = _window.prefix || serverConfig.defaults.prefix
+  const _window: CircuitBreakerWindow = window
+  const prefix = _window.prefix || serverConfig.defaults.prefix
 
-  return <Admin />
+  const [dependencies, setDependencies] = React.useState([])
+
+  React.useEffect(() => {
+    fetch(`${prefix}/api/dependencies`)
+      .then(resp => resp.json())
+      .then(dependencies => setDependencies(dependencies))
+  }, [])
+
+  return <Admin dependencies={dependencies} />
 }
 
 App.displayName = 'App'
