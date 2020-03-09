@@ -2,5 +2,28 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
 import { Admin } from './pages/Admin'
+import { server as serverConfig } from '../constants'
 
-ReactDOM.render(<Admin />, document.getElementById('app'))
+/**
+ * Extends the window object to pick up configuration values written by the
+ * endpoint that serves the initial page, writing the boostrap values into a
+ * config object directly on the window object.
+ */
+interface CircuitBreakerWindow extends Window {
+  /**
+   * The URL prefix for the admin server
+   */
+  prefix?: string
+}
+
+const App = () => {
+  // TODO use these variables
+  // const _window: CircuitBreakerWindow = window
+  // const prefix = _window.prefix || serverConfig.defaults.prefix
+
+  return <Admin />
+}
+
+App.displayName = 'App'
+
+ReactDOM.render(<App />, document.getElementById('app'))

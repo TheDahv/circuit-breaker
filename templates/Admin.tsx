@@ -49,6 +49,12 @@ export const Admin = (props: HomeProps) => {
           <Page.Admin />
         </div>
 
+        <script
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({ prefix: props.prefix })
+          }}
+        />
+
         <script src={`${props.prefix}/vendor/react/umd/react.development.js`} />
         <script
           src={`${props.prefix}/vendor/react-dom/umd/react-dom.development.js`}

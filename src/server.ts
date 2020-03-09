@@ -11,6 +11,7 @@ import * as ReactDOMServer from 'react-dom/server'
 
 import { Admin } from '../templates/Admin'
 import { Manager } from './manager'
+import { server as serverConfig } from './constants'
 
 /**
  * # Server
@@ -62,7 +63,7 @@ export const server = (manager: Manager, prefix?: string): Express.Router => {
 
   server.get('/', (req, res, next) => {
     ReactDOMServer.renderToNodeStream(
-      React.createElement(Admin, { prefix: prefix || '/admin/circuit-breaker' })
+      React.createElement(Admin, { prefix: prefix || serverConfig.defaults.prefix })
     ).pipe(res)
   })
 
