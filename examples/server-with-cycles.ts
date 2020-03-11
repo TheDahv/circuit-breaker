@@ -2,6 +2,7 @@ import * as express from 'express'
 
 import { Dependency } from '../src/dependency'
 import { Manager } from '../src/manager'
+import { server } from '../src/server'
 
 const red: Dependency = {
   name: 'red',
@@ -48,6 +49,9 @@ manager.register(green)
 
 const app = express()
 app.use(manager.middleware())
+
+const adminPrefix = '/admin/circuit-breaker'
+app.use(adminPrefix, server(manager, adminPrefix))
 
 app.get('/circuit-breaker/dependencies', (req, res) => {
   res.json(manager.adjacencyList())

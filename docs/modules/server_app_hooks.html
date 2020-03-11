@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>manager | circuit-breaker</title>
+	<title>server/app/hooks | circuit-breaker</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -52,10 +52,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="manager.html">manager</a>
+					<a href="server_app_hooks.html">server/app/hooks</a>
 				</li>
 			</ul>
-			<h1>External module manager</h1>
+			<h1>External module server/app/hooks</h1>
 		</div>
 	</div>
 </header>
@@ -67,18 +67,51 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Classes</h3>
+							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/manager.manager-1.html" class="tsd-kind-icon">Manager</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Interfaces</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/manager.edge.html" class="tsd-kind-icon">Edge</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="server_app_hooks.html#useinterval" class="tsd-kind-icon">use<wbr>Interval</a></li>
 							</ul>
 						</section>
 					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="useinterval" class="tsd-anchor"></a>
+					<h3>use<wbr>Interval</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">use<wbr>Interval<span class="tsd-signature-symbol">(</span>callback<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">callbackFn</span>, delay<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/TheDahv/circuit-breaker/blob/bae3ce6/src/app/hooks/useInterval.ts#L20">src/app/hooks/useInterval.ts:20</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>useInterval is a hook that registers a behavior you&#39;d normally run in
+									useEffect, but on a regular basis.</p>
+								</div>
+								<p>The only difference is you supply a delay in milliseconds to run a given
+									effect. This is useful if you want to subscribe to a series of poll results
+								against an interval to run UI changes.</p>
+								<p>See <a href="https://overreacted.io/making-setinterval-declarative-with-react-hooks/">https://overreacted.io/making-setinterval-declarative-with-react-hooks/</a></p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>callback: <span class="tsd-signature-type">callbackFn</span></h5>
+								</li>
+								<li>
+									<h5>delay: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 		</div>
@@ -94,7 +127,7 @@
 					<li class=" tsd-kind-external-module">
 						<a href="dependency_datadog.html">dependency/datadog</a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="manager.html">manager</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -103,7 +136,7 @@
 					<li class=" tsd-kind-external-module">
 						<a href="server_app_components_grid.html">server/app/components/grid</a>
 					</li>
-					<li class=" tsd-kind-external-module">
+					<li class="current tsd-kind-external-module">
 						<a href="server_app_hooks.html">server/app/hooks</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -113,11 +146,8 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/manager.manager-1.html" class="tsd-kind-icon">Manager</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/manager.edge.html" class="tsd-kind-icon">Edge</a>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="server_app_hooks.html#useinterval" class="tsd-kind-icon">use<wbr>Interval</a>
 					</li>
 				</ul>
 			</nav>

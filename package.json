@@ -5,25 +5,37 @@
   "license": "MIT",
   "devDependencies": {
     "@types/chai": "^4.2.10",
+    "@types/cytoscape": "^3.14.0",
     "@types/mocha": "^7.0.2",
+    "@types/react": "^16.9.23",
+    "@types/react-dom": "^16.9.5",
     "chai": "^4.2.0",
     "mocha": "^7.1.0",
     "prettier-standard": "^16.1.0",
+    "source-map-loader": "^0.2.4",
+    "ts-loader": "^6.2.1",
     "ts-node": "^8.6.2",
     "typedoc": "^0.16.11",
     "typedoc-plugin-external-module-name": "^3.0.0",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "webpack": "^4.42.0",
+    "webpack-cli": "^3.3.11"
   },
   "scripts": {
     "build": "tsc",
     "format": "prettier-standard --format",
     "test": "TS_NODE_FILES=true mocha -r ts-node/register test/**/*.spec.ts",
-    "docs": "typedoc"
+    "docs": "typedoc",
+    "webpack": "webpack -w"
   },
   "dependencies": {
     "@types/express": "^4.17.2",
     "@types/node": "^13.7.7",
+    "cytoscape": "3.14.0",
     "express": "^4.17.1",
-    "global": "^4.4.0"
+    "global": "^4.4.0",
+    "react": "^16.13.0",
+    "react-cytoscapejs": "^1.2.1",
+    "react-dom": "^16.13.0"
   }
 }
