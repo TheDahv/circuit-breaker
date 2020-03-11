@@ -1,6 +1,7 @@
 import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 
+import useInterval from './hooks/useInterval'
 import { Admin } from './pages/Admin'
 import { server as serverConfig } from '../constants'
 
@@ -23,16 +24,19 @@ const App = () => {
   const [dependencies, setDependencies] = React.useState([])
   const [edges, setEdges] = React.useState([])
 
-  React.useEffect(() => {
+  const fetchData = () => {
     fetch(`${prefix}/api/dependencies`)
       .then(resp => resp.json())
       .then(dependencies => setDependencies(dependencies))
-  }, [])
-  React.useEffect(() => {
+
     fetch(`${prefix}/api/edges`)
       .then(resp => resp.json())
       .then(edges => setEdges(edges))
-  }, [])
+  }
+
+  // Kick off first load, and then set up timer
+  React.useEffect(fetchData, [])
+  useInterval(fetchData, 5000)
 
   return <Admin dependencies={dependencies} edges={edges} />
 }
