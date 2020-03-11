@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>manager | circuit-breaker</title>
+	<title>server/app/components/dependencies | circuit-breaker</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -52,10 +52,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="manager.html">manager</a>
+					<a href="server_app_components_dependencies.html">server/app/components/dependencies</a>
 				</li>
 			</ul>
-			<h1>External module manager</h1>
+			<h1>External module server/app/components/dependencies</h1>
 		</div>
 	</div>
 </header>
@@ -67,18 +67,116 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Classes</h3>
+							<h3>Interfaces</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/manager.manager-1.html" class="tsd-kind-icon">Manager</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/server_app_components_dependencies.cardprops.html" class="tsd-kind-icon">Card<wbr>Props</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/server_app_components_dependencies.iconprops.html" class="tsd-kind-icon">Icon<wbr>Props</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
-							<h3>Interfaces</h3>
+							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-interface tsd-parent-kind-external-module"><a href="../interfaces/manager.edge.html" class="tsd-kind-icon">Edge</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="server_app_components_dependencies.html#dependencycard" class="tsd-kind-icon">Dependency<wbr>Card</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="server_app_components_dependencies.html#dependencycardicon" class="tsd-kind-icon">Dependency<wbr>Card<wbr>Icon</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-external-module"><a href="server_app_components_dependencies.html#dependencygraph" class="tsd-kind-icon">Dependency<wbr>Graph</a></li>
 							</ul>
 						</section>
 					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="dependencycard" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Dependency<wbr>Card</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">Dependency<wbr>Card<span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">: </span><a href="../interfaces/server_app_components_dependencies.cardprops.html" class="tsd-signature-type">CardProps</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Element</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/TheDahv/circuit-breaker/blob/bae3ce6/src/app/components/DependencyCard.tsx#L27">src/app/components/DependencyCard.tsx:27</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>DependencyCard shows the current status of a <a href="../interfaces/dependency.dependency-2.html">Dependency</a> in the system.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>props: <a href="../interfaces/server_app_components_dependencies.cardprops.html" class="tsd-signature-type">CardProps</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Element</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="dependencycardicon" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Dependency<wbr>Card<wbr>Icon</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">Dependency<wbr>Card<wbr>Icon<span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">: </span><a href="../interfaces/server_app_components_dependencies.iconprops.html" class="tsd-signature-type">IconProps</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Element</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/TheDahv/circuit-breaker/blob/bae3ce6/src/app/components/DependencyStatusIcon.tsx#L22">src/app/components/DependencyStatusIcon.tsx:22</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>DependencyCardIcon shows a visual representation of a <a href="../interfaces/dependency.dependency-2.html">Dependency</a> health
+									status.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>props: <a href="../interfaces/server_app_components_dependencies.iconprops.html" class="tsd-signature-type">IconProps</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Element</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-external-module">
+					<a name="dependencygraph" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> Dependency<wbr>Graph</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-external-module">
+						<li class="tsd-signature tsd-kind-icon">Dependency<wbr>Graph<span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">GraphProps</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Element</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/TheDahv/circuit-breaker/blob/bae3ce6/src/app/components/DependencyGraph.tsx#L45">src/app/components/DependencyGraph.tsx:45</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>DependencyGraph renders a graph of dependencies in the app surfacing the
+									dependeny relationships and health status of each.</p>
+								</div>
+								<p>It uses <a href="https://js.cytoscape.org/">Cytoscape</a> to build the graph. Since this
+									depends on having access to the &quot;window&quot; object, this can only be used in
+								code targeting the browser.</p>
+								<p>For pages that may be rendered server-side, guard importing with conditions
+								depending on typeof value of the window object at runtime.</p>
+								<p>See <code>src/app/pages/Admin.tsx</code> for an example.</p>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>props: <span class="tsd-signature-type">GraphProps</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Element</span></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 		</div>
@@ -94,10 +192,10 @@
 					<li class=" tsd-kind-external-module">
 						<a href="dependency_datadog.html">dependency/datadog</a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="manager.html">manager</a>
 					</li>
-					<li class=" tsd-kind-external-module">
+					<li class="current tsd-kind-external-module">
 						<a href="server_app_components_dependencies.html">server/app/components/dependencies</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -113,11 +211,20 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-parent-kind-external-module">
-						<a href="../classes/manager.manager-1.html" class="tsd-kind-icon">Manager</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
+						<a href="../interfaces/server_app_components_dependencies.cardprops.html" class="tsd-kind-icon">Card<wbr>Props</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/manager.edge.html" class="tsd-kind-icon">Edge</a>
+						<a href="../interfaces/server_app_components_dependencies.iconprops.html" class="tsd-kind-icon">Icon<wbr>Props</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="server_app_components_dependencies.html#dependencycard" class="tsd-kind-icon">Dependency<wbr>Card</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="server_app_components_dependencies.html#dependencycardicon" class="tsd-kind-icon">Dependency<wbr>Card<wbr>Icon</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-external-module">
+						<a href="server_app_components_dependencies.html#dependencygraph" class="tsd-kind-icon">Dependency<wbr>Graph</a>
 					</li>
 				</ul>
 			</nav>
