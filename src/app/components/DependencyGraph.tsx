@@ -39,6 +39,15 @@ const layoutOptions = {
  * See `src/app/pages/Admin.tsx` for an example.
  */
 export const DependencyGraph = (props: GraphProps) => {
+  // Alright, functional components and a stateful library like Cytoscape are
+  // weird. Rendering graphs is actually somewhat computationally expensive, so
+  // the library under the hood is mutating a single instance. But that's not
+  // how our components are looking at them. So we use a ref.
+  // If a ref is presence and not null, Cytoscape has run once before. When that
+  // is the case, we know that we need to run some imperative code against the
+  // ref to update the instance.
+  let cyRef = React.useRef<cytoscape.Core>()
+
   const nodes = props.dependencies.map(([name, isHealthy], index) => ({
     data: {
       id: name,
@@ -59,10 +68,27 @@ export const DependencyGraph = (props: GraphProps) => {
     return null
   }
 
+  // Here is where we update a Cytoscape graph after it has already been
+  // rendered once before. As far as React is concerned, this functional
+  // component has done its thing and moved on, but there is an instance out
+  // there in the browser run-time we need to udpate to make any changes.
+  if (cyRef.current) {
+    let cy: cytoscape.Core = cyRef.current
+    cy.batch(() => {
+      for (const [name, isHealthy] of props.dependencies) {
+        cy.$('#' + name).style('background-color', isHealthy ? 'green' : 'red')
+      }
+    })
+  }
+
   return (
     <CytoscapeComponent
       cy={cy =>
         cy.on('add', 'node', evt => {
+          if (!cyRef.current) {
+            cyRef.current = cy
+          }
+
           const node = evt.target
           const { isHealthy } = node.data()
           node.style('background-color', isHealthy ? 'green' : 'red')
@@ -90,8 +116,6 @@ export const DependencyGraph = (props: GraphProps) => {
           style: {
             'arrow-scale': 2,
             'curve-style': 'bezier',
-            //'target-arrow-color': '#333333',
-            //'target-arrow-fill': 'filled',
             'target-arrow-shape': 'vee'
           }
         }
