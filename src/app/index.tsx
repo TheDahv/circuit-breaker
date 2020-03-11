@@ -21,14 +21,20 @@ const App = () => {
   const prefix = _window.prefix || serverConfig.defaults.prefix
 
   const [dependencies, setDependencies] = React.useState([])
+  const [edges, setEdges] = React.useState([])
 
   React.useEffect(() => {
     fetch(`${prefix}/api/dependencies`)
       .then(resp => resp.json())
       .then(dependencies => setDependencies(dependencies))
   }, [])
+  React.useEffect(() => {
+    fetch(`${prefix}/api/edges`)
+      .then(resp => resp.json())
+      .then(edges => setEdges(edges))
+  }, [])
 
-  return <Admin dependencies={dependencies} />
+  return <Admin dependencies={dependencies} edges={edges} />
 }
 
 App.displayName = 'App'

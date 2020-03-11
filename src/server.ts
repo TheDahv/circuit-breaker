@@ -63,17 +63,23 @@ export const server = (manager: Manager, prefix?: string): Express.Router => {
 
   server.get('/', (req, res, next) => {
     const dependencies = manager.dependencyStatusList()
+    const edges = manager.adjacencyList()
 
     ReactDOMServer.renderToNodeStream(
       React.createElement(Admin, {
         prefix: prefix || serverConfig.defaults.prefix,
-        dependencies: dependencies
+        dependencies: dependencies,
+        edges: edges
       })
     ).pipe(res)
   })
 
   server.get('/api/dependencies', (req, res) => {
     res.json(manager.dependencyStatusList())
+  })
+
+  server.get('/api/edges', (req, res) => {
+    res.json(manager.adjacencyList())
   })
 
   server.use('/vendor', serveJsFolder('../node_modules'))
