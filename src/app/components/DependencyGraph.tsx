@@ -25,6 +25,10 @@ const layoutOptions = {
   roots: '#root'
 }
 
+const nodeColor = (name: string, isHealthy: boolean) => {
+  return name === 'root' ? 'grey' : isHealthy ? 'green' : 'red'
+}
+
 /**
  * DependencyGraph renders a graph of dependencies in the app surfacing the
  * dependeny relationships and health status of each.
@@ -76,7 +80,7 @@ export const DependencyGraph = (props: GraphProps) => {
     let cy: cytoscape.Core = cyRef.current
     cy.batch(() => {
       for (const [name, isHealthy] of props.dependencies) {
-        cy.$('#' + name).style('background-color', isHealthy ? 'green' : 'red')
+        cy.$('#' + name).style('background-color', nodeColor(name, isHealthy))
       }
     })
   }
@@ -91,7 +95,7 @@ export const DependencyGraph = (props: GraphProps) => {
 
           const node = evt.target
           const { isHealthy } = node.data()
-          node.style('background-color', isHealthy ? 'green' : 'red')
+          node.style('background-color', nodeColor(node.id, isHealthy))
 
           cy.layout(layoutOptions).run()
           cy.fit()
