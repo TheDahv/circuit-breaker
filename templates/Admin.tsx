@@ -57,7 +57,9 @@ export const Admin = (props: HomeProps) => {
 
         <script
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({ prefix: props.prefix })
+            __html: `window.circuitBreakerConfig = ${JSON.stringify({
+              prefix: props.prefix
+            })}`
           }}
         />
 

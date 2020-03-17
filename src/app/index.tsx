@@ -10,16 +10,16 @@ import { server as serverConfig } from '../constants'
  * endpoint that serves the initial page, writing the boostrap values into a
  * config object directly on the window object.
  */
-interface CircuitBreakerWindow extends Window {
-  /**
-   * The URL prefix for the admin server
-   */
-  prefix?: string
+declare global {
+  interface Window {
+    config: {
+      prefix?: string
+    }
+  }
 }
 
 const App = () => {
-  const _window: CircuitBreakerWindow = window
-  const prefix = _window.prefix || serverConfig.defaults.prefix
+  const prefix = window.config.prefix || serverConfig.defaults.prefix
 
   const [dependencies, setDependencies] = React.useState([])
   const [edges, setEdges] = React.useState([])
