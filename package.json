@@ -1,6 +1,6 @@
 {
   "name": "@thedahv/circuit-breaker",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dist/src/main.js",
   "license": "MIT",
   "devDependencies": {
@@ -29,7 +29,7 @@
     "build": "tsc",
     "docs": "typedoc",
     "format": "prettier-standard --format",
-    "prepare": "npm run test && npm run build",
+    "prepare": "npm run test && npm run build && webpack --production",
     "test": "TS_NODE_FILES=true mocha -r ts-node/register test/**/*.spec.ts",
     "webpack": "webpack -w"
   },
