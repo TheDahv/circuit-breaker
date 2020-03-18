@@ -40,4 +40,4 @@ const App = () => {
 
 App.displayName = 'App'
 
-ReactDOM.render(<App />, document.getElementById('app'))
+ReactDOM.hydrate(<App />, document.getElementById('app'))
