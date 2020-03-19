@@ -38,7 +38,7 @@ const green: Dependency = {
 }
 
 const manager = Manager.get()
-manager.register(red, blue, green)
+manager.register(undefined, red, blue, green)
 
 const app = express()
 app.use(manager.middleware())

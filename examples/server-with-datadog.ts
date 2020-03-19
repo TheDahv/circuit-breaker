@@ -22,7 +22,7 @@ const monitor = new Datadog(
 )
 
 const m = Manager.get()
-m.register(monitor)
+m.register(undefined, monitor)
 
 const app = express()
 app.use(m.middleware())

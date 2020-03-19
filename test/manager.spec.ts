@@ -36,7 +36,7 @@ describe('Manager', function () {
         dependencies: []
       }
 
-      this.m.register(dep1, dep2)
+      this.m.register(undefined, dep1, dep2)
       expect(this.m.size()).to.eql(2)
     })
 
@@ -48,8 +48,8 @@ describe('Manager', function () {
         dependencies: []
       }
 
-      this.m.register(dep)
-      this.m.register(dep)
+      this.m.register(undefined, dep)
+      this.m.register(undefined, dep)
 
       expect(this.m.size()).to.eql(1)
     })
@@ -58,7 +58,7 @@ describe('Manager', function () {
   describe('shutdown', function () {
     it('should clear out dependencies', function () {
       const m = Manager.get()
-      m.register({
+      m.register(undefined, {
         name: 'dependency',
         intervalMs: 0,
         resolver: () => Promise.resolve(true),
@@ -89,7 +89,7 @@ describe('Manager', function () {
           dependencies: []
         }
 
-        this.m.register(d)
+        this.m.register(undefined, d)
         this.actual = this.m.adjacencyList()
       })
 
@@ -136,9 +136,7 @@ describe('Manager', function () {
         green.dependencies.push(red)
 
         this.m = Manager.get()
-        this.m.register(red)
-        this.m.register(blue)
-        this.m.register(green)
+        this.m.register(undefined, red, blue, green)
 
         this.actual = this.m.adjacencyList()
       })
@@ -173,6 +171,112 @@ describe('Manager', function () {
         expect(edges.red[0].target).to.eql('blue')
         expect(edges.green[0].target).to.eql('red')
         expect(edges.blue[0].target).to.eql('green')
+      })
+    })
+
+    describe('when dependencies are nested', function () {
+      beforeEach(function () {
+        this.m = Manager.get()
+
+        const featureA: Dependency = {
+          name: 'feature-a',
+          intervalMs: 0,
+          resolver: () => Promise.resolve(true),
+          dependencies: []
+        }
+        const featureASub1: Dependency = {
+          name: 'feature-a-sub-1',
+          intervalMs: 0,
+          resolver: () => Promise.resolve(true),
+          dependencies: []
+        }
+        const featureASub2: Dependency = {
+          name: 'feature-a-sub-2',
+          intervalMs: 0,
+          resolver: () => Promise.resolve(true),
+          dependencies: []
+        }
+        const featureASub3: Dependency = {
+          name: 'feature-a-sub-3',
+          intervalMs: 0,
+          resolver: () => Promise.resolve(true),
+          dependencies: []
+        }
+        featureA.dependencies.push(featureASub1, featureASub2, featureASub3)
+
+        const featureB: Dependency = {
+          name: 'feature-b',
+          intervalMs: 0,
+          resolver: () => Promise.resolve(true),
+          dependencies: []
+        }
+        const featureBSub1: Dependency = {
+          name: 'feature-b-sub-1',
+          intervalMs: 0,
+          resolver: () => Promise.resolve(true),
+          dependencies: []
+        }
+        const featureBSub2: Dependency = {
+          name: 'feature-b-sub-2',
+          intervalMs: 0,
+          resolver: () => Promise.resolve(true),
+          dependencies: []
+        }
+        const featureBSub3: Dependency = {
+          name: 'feature-b-sub-3',
+          intervalMs: 0,
+          resolver: () => Promise.resolve(true),
+          dependencies: []
+        }
+        featureB.dependencies.push(featureBSub1, featureBSub2, featureBSub3)
+
+        this.m.register(undefined, featureA, featureB)
+      })
+
+      afterEach(function () {
+        this.m.shutdown()
+      })
+
+      it('should register all sub-dependencies', function () {
+        expect(this.m.size()).to.eql(8)
+      })
+
+      it('should have an edge from the root to main features', function () {
+        const edges: Edge[] = this.m
+          .adjacencyList()
+          .filter((edge: Edge) => edge.source === 'root')
+
+        expect(edges.length).to.eql(2)
+        expect(edges.find((edge: Edge) => edge.target === 'feature-a')).to.exist
+        expect(edges.find((edge: Edge) => edge.target === 'feature-b')).to.exist
+      })
+
+      it('should have an edge from the feature-a to dependencies', function () {
+        const edges: Edge[] = this.m
+          .adjacencyList()
+          .filter((edge: Edge) => edge.source === 'feature-a')
+
+        expect(edges.length).to.eql(3)
+        expect(edges.find((edge: Edge) => edge.target === 'feature-a-sub-1')).to
+          .exist
+        expect(edges.find((edge: Edge) => edge.target === 'feature-a-sub-2')).to
+          .exist
+        expect(edges.find((edge: Edge) => edge.target === 'feature-a-sub-3')).to
+          .exist
+      })
+
+      it('should have an edge from the feature-b to dependencies', function () {
+        const edges: Edge[] = this.m
+          .adjacencyList()
+          .filter((edge: Edge) => edge.source === 'feature-b')
+
+        expect(edges.length).to.eql(3)
+        expect(edges.find((edge: Edge) => edge.target === 'feature-b-sub-1')).to
+          .exist
+        expect(edges.find((edge: Edge) => edge.target === 'feature-b-sub-2')).to
+          .exist
+        expect(edges.find((edge: Edge) => edge.target === 'feature-b-sub-3')).to
+          .exist
       })
     })
   })

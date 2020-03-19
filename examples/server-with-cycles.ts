@@ -43,9 +43,9 @@ blue.dependencies.push(green)
 green.dependencies.push(red)
 
 const manager = Manager.get()
-manager.register(red)
-manager.register(blue)
-manager.register(green)
+manager.register(undefined, red)
+manager.register(undefined, blue)
+manager.register(undefined, green)
 
 const app = express()
 app.use(manager.middleware())

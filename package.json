@@ -1,6 +1,6 @@
 {
   "name": "@thedahv/circuit-breaker",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "main": "dist/src/main.js",
   "license": "MIT",
   "devDependencies": {

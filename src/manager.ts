@@ -35,6 +35,7 @@ export class Manager {
 
   // prevents adding duplicate instances of a given dependency
   private dependencies: Set<Dependency>
+  private graph: Map<string, Edge>
   // holds Timeout IDs returned from setInterval so we can delete them later on
   // shutdown
   private schedules: Map<string, NodeJS.Timeout>
@@ -78,6 +79,7 @@ export class Manager {
       instance.dependencies = new Set<Dependency>()
       instance.schedules = new Map<string, NodeJS.Timeout>()
       instance.statusCache = new Map<string, boolean>()
+      instance.graph = new Map<string, Edge>()
 
       Manager.instance = instance
     }
@@ -94,32 +96,71 @@ export class Manager {
    * A dependency is resolved in the background when it is first added. This
    * also registers a check on the specified interval and its recurrence is
    * managed by the Manager.
+   *
+   * This process also builds the dependency graph as dependencies are added and
+   * their relationships are evaluated
+   *
+   * @param parent An optional reference to the dependency name that serves as
+   * an ancestor to the dependencies to register. If undefined, the parent is
+   * 'root'
    */
-  public register (...dependencies: Dependency[]) {
-    for (const dependency of dependencies) {
-      if (this.dependencies.has(dependency)) {
-        // Note: we need a check here because Set.add isn't totally idempotent.
-        // It will *replace* whatever was in there before, but the pre-existing
-        // item will have its callback registered with the setInterval runtime.
-        // That would create a memory leak and would also keep the event loop
-        // stuck open because there is a callback registered that we can't clear
-        continue
+  public register (parent?: string, ...dependencies: Dependency[]) {
+    parent = parent || 'root'
+
+    // Important logic: using this as a FIFO queue to support a BFS walk through
+    // all dependency nodes. A parent should process all of its children before
+    // descending into grand-children dependencies. This ensures edges are built
+    // properly
+    const processQueue: { parent: string; dependencies: Dependency[] }[] = []
+    processQueue.push({ parent, dependencies })
+
+    while (processQueue.length) {
+      const entry = processQueue.shift()
+      if (!entry) {
+        break
       }
 
-      this.dependencies.add(dependency)
+      const { parent, dependencies } = entry
+      for (const dependency of dependencies) {
+        const edge: Edge = { source: parent, target: dependency.name }
+        const edgeId = edgeToString(edge)
+        if (!this.graph.has(edgeId)) {
+          this.graph.set(edgeId, edge)
+        }
 
-      // Run the first check async so that its entry is added to the statusCache
-      // on the first run
-      isHealthy(dependency).then(healthy =>
-        this.statusCache.set(dependency.name, healthy)
-      )
+        if (this.dependencies.has(dependency)) {
+          // Note: we need a check here because Set.add isn't totally idempotent.
+          // It will *replace* whatever was in there before, but the pre-existing
+          // item will have its callback registered with the setInterval runtime.
+          // That would create a memory leak and would also keep the event loop
+          // stuck open because there is a callback registered that we can't clear
+          continue
+        }
 
-      const scheduleId = setInterval(async () => {
-        // TODO memoize lookup to determine circuit-breaker state
-        const healthy = await isHealthy(dependency)
-        this.statusCache.set(dependency.name, healthy)
-      }, dependency.intervalMs)
-      this.schedules.set(dependency.name, scheduleId)
+        this.dependencies.add(dependency)
+
+        // Run the first check async so that its entry is added to the statusCache
+        // on the first run
+        isHealthy(dependency).then(healthy =>
+          this.statusCache.set(dependency.name, healthy)
+        )
+
+        const scheduleId = setInterval(async () => {
+          // TODO memoize lookup to determine circuit-breaker state
+          const healthy = await isHealthy(dependency)
+          this.statusCache.set(dependency.name, healthy)
+        }, dependency.intervalMs)
+        this.schedules.set(dependency.name, scheduleId)
+
+        // Do a BFS on the child-dependency tree rather than DFS to ensure the
+        // correct parent is registered with the dependency
+        if (dependency.dependencies.length) {
+          processQueue.push({
+            parent: dependency.name,
+            dependencies: dependency.dependencies
+          })
+        }
+      }
     }
   }
 
@@ -140,6 +181,7 @@ export class Manager {
     this.schedules.clear()
     this.statusCache.clear()
     this.dependencies.clear()
+    this.graph.clear()
     Manager.instance = undefined
   }
 
@@ -156,34 +198,7 @@ export class Manager {
    * @returns The relationships among the service and all dependencies.
    */
   public adjacencyList (): Edge[] {
-    const graph = new Map<string, Edge>()
-    const sources = [
-      { name: 'root', dependencies: Array.from(this.dependencies) }
-    ]
-
-    while (sources.length) {
-      const source = sources.pop()
-      if (!source) {
-        break
-      }
-
-      for (const target of source.dependencies) {
-        const edge: Edge = { source: source.name, target: target.name }
-        const edgeId = edgeToString(edge)
-
-        // Prevent following cycles
-        if (graph.has(edgeId)) {
-          continue
-        }
-
-        graph.set(edgeId, edge)
-        if (target.dependencies.length) {
-          sources.push(...target.dependencies)
-        }
-      }
-    }
-
-    return Array.from(graph.values())
+    return Array.from(this.graph.values())
   }
 }
 
