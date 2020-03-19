@@ -1,7 +1,7 @@
 {
-  "name": "circuit-breaker",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "@thedahv/circuit-breaker",
+  "version": "0.0.5",
+  "main": "dist/src/main.js",
   "license": "MIT",
   "devDependencies": {
     "@types/chai": "^4.2.10",
@@ -21,11 +21,16 @@
     "webpack": "^4.42.0",
     "webpack-cli": "^3.3.11"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/thedahv/circuit-breaker"
+  },
   "scripts": {
     "build": "tsc",
-    "format": "prettier-standard --format",
-    "test": "TS_NODE_FILES=true mocha -r ts-node/register test/**/*.spec.ts",
     "docs": "typedoc",
+    "format": "prettier-standard --format",
+    "prepare": "npm run test && npm run build && webpack --production",
+    "test": "TS_NODE_FILES=true mocha -r ts-node/register test/**/*.spec.ts",
     "webpack": "webpack -w"
   },
   "dependencies": {

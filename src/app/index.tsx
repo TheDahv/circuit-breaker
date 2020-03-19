@@ -10,16 +10,13 @@ import { server as serverConfig } from '../constants'
  * endpoint that serves the initial page, writing the boostrap values into a
  * config object directly on the window object.
  */
-interface CircuitBreakerWindow extends Window {
-  /**
-   * The URL prefix for the admin server
-   */
-  prefix?: string
+interface ConfigWindow extends Window {
+  circuitBreakerPrefix?: string
 }
 
 const App = () => {
-  const _window: CircuitBreakerWindow = window
-  const prefix = _window.prefix || serverConfig.defaults.prefix
+  const _window: ConfigWindow = window
+  const prefix = _window.circuitBreakerPrefix || serverConfig.defaults.prefix
 
   const [dependencies, setDependencies] = React.useState([])
   const [edges, setEdges] = React.useState([])
@@ -43,4 +40,4 @@ const App = () => {
 
 App.displayName = 'App'
 
-ReactDOM.render(<App />, document.getElementById('app'))
+ReactDOM.hydrate(<App />, document.getElementById('app'))

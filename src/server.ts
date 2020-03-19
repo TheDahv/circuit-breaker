@@ -82,8 +82,8 @@ export const server = (manager: Manager, prefix?: string): Express.Router => {
     res.json(manager.adjacencyList())
   })
 
-  server.use('/vendor', serveJsFolder('../node_modules'))
-  server.use('/js', serveJsFolder('../dist'))
+  server.use('/vendor', serveJsFolder('../../node_modules'))
+  server.use('/js', serveJsFolder('../'))
 
   return server
 }
