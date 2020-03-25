@@ -6,8 +6,12 @@
 /// <reference path="../../../types/react-cytoscapejs.d.ts"/>
 
 import * as React from 'react'
+import * as Cytoscape from 'cytoscape'
 import * as CytoscapeComponent from 'react-cytoscapejs'
 
+Cytoscape.use(require('cytoscape-dagre'))
+
+import Button from '../components/Button'
 import { Edge } from '../../manager'
 
 export interface GraphProps {
@@ -17,12 +21,12 @@ export interface GraphProps {
 
 const layoutOptions = {
   animate: true,
-  avoidOverlap: true,
-  directed: false,
   fit: true,
-  name: 'breadthfirst',
-  padding: 3,
-  roots: '#root'
+  name: 'dagre',
+  nodeDimensionsIncludeLabels: true,
+  padding: 30,
+  rankDir: 'TB',
+  ranker: 'tight-tree'
 }
 
 const nodeColor = (name: string, isHealthy: boolean) => {
@@ -66,8 +70,8 @@ export const DependencyGraph = (props: GraphProps) => {
       label: ''
     }
   }))
-  const elements = CytoscapeComponent.normalizeElements({ nodes, edges })
 
+  const elements = CytoscapeComponent.normalizeElements({ nodes, edges })
   if (!elements.length) {
     return null
   }
@@ -86,45 +90,57 @@ export const DependencyGraph = (props: GraphProps) => {
   }
 
   return (
-    <CytoscapeComponent
-      cy={cy =>
-        cy.on('add', 'node', evt => {
-          if (!cyRef.current) {
-            cyRef.current = cy
+    <React.Fragment>
+      <Button
+        onClick={_evt => {
+          if (cyRef.current) {
+            const cy: cytoscape.Core = cyRef.current
+            cy.layout(layoutOptions).run()
           }
+        }}
+      >
+        Reset Layout
+      </Button>
+      <CytoscapeComponent
+        cy={cy =>
+          cy.on('add', 'node', evt => {
+            if (!cyRef.current) {
+              cyRef.current = cy
+            }
 
-          const node = evt.target
-          const { isHealthy } = node.data()
-          node.style('background-color', nodeColor(node.id, isHealthy))
+            const node = evt.target
+            const { isHealthy } = node.data()
+            node.style('background-color', nodeColor(node.id, isHealthy))
 
-          cy.layout(layoutOptions).run()
-          cy.fit()
-        })
-      }
-      elements={elements}
-      style={{
-        height: '700px',
-        minHeight: '700px',
-        width: '100%'
-      }}
-      stylesheet={[
-        {
-          selector: 'node',
-          style: {
-            label: 'data(label)',
-            color: '#333333'
-          }
-        },
-        {
-          selector: 'edge',
-          style: {
-            'arrow-scale': 2,
-            'curve-style': 'bezier',
-            'target-arrow-shape': 'vee'
-          }
+            cy.layout(layoutOptions).run()
+            cy.fit()
+          })
         }
-      ]}
-    />
+        elements={elements}
+        style={{
+          height: '700px',
+          minHeight: '700px',
+          width: '100%'
+        }}
+        stylesheet={[
+          {
+            selector: 'node',
+            style: {
+              label: 'data(label)',
+              color: '#333333'
+            }
+          },
+          {
+            selector: 'edge',
+            style: {
+              'arrow-scale': 2,
+              'curve-style': 'bezier',
+              'target-arrow-shape': 'vee'
+            }
+          }
+        ]}
+      />
+    </React.Fragment>
   )
 }
 

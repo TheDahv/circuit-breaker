@@ -1,6 +1,6 @@
 {
   "name": "@thedahv/circuit-breaker",
-  "version": "0.0.5",
+  "version": "0.1.0",
   "main": "dist/src/main.js",
   "license": "MIT",
   "devDependencies": {
@@ -37,6 +37,7 @@
     "@types/express": "^4.17.2",
     "@types/node": "^13.7.7",
     "cytoscape": "3.14.0",
+    "cytoscape-dagre": "^2.2.2",
     "express": "^4.17.1",
     "global": "^4.4.0",
     "react": "^16.13.0",
