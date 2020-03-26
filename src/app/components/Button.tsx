@@ -6,11 +6,11 @@
 import * as React from 'react'
 
 /**
- * ButtonProps control the behavior and appearance of the rendered button
+ * ButtonProps control the behavior and appearance of the rendered [[Button]]
  */
-interface ButtonProps {
+export interface ButtonProps {
   /**
-   * When true, renders a <button /> node that can submit a form rather than
+   * When true, renders a `<button />` node that can submit a form rather than
    * using an input tag.
    *
    * See [Materialize
@@ -34,8 +34,7 @@ interface ButtonProps {
    */
   large?: boolean
   /**
-   * An optional handler to run when a user clicks on the button. It receives a
-   * [[React.MouseEventHandler]] event.
+   * An optional handler to run when a user clicks on the button.
    */
   onClick?: React.MouseEventHandler
   /**
@@ -50,7 +49,10 @@ interface ButtonProps {
 
 /**
  * A Button component implementing Materialize CSS
- * [Buttons](https://materializecss.com/buttons.html)
+ * [Buttons](https://materializecss.com/buttons.html).
+ *
+ * It renders a styles `<a />` tag by default. See the `asSubmit` property to
+ * change this behavior.
  *
  * Example:
  *

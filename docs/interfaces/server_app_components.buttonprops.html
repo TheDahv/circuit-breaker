@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Dependency | @thedahv/circuit-breaker</title>
+	<title>ButtonProps | @thedahv/circuit-breaker</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -52,13 +52,13 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/dependency.html">dependency</a>
+					<a href="../modules/server_app_components.html">server/app/components</a>
 				</li>
 				<li>
-					<a href="dependency.dependency-2.html">Dependency</a>
+					<a href="server_app_components.buttonprops.html">ButtonProps</a>
 				</li>
 			</ul>
-			<h1>Interface Dependency</h1>
+			<h1>Interface ButtonProps</h1>
 		</div>
 	</div>
 </header>
@@ -68,25 +68,16 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>A dependency models an external resource that could go down or become
-						unavailable.</p>
+						<p>ButtonProps control the behavior and appearance of the rendered <a href="../modules/server_app_components.html#button">Button</a></p>
 					</div>
-					<p>Each dependency declares how to resolve its health and how often a <a href="../classes/manager.manager-1.html">Manager</a>
-					should check for health.</p>
 				</div>
 			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">Dependency</span>
+						<span class="target">ButtonProps</span>
 					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel">
-				<h3>Implemented by</h3>
-				<ul class="tsd-hierarchy">
-					<li><a href="../classes/dependency_datadog.datadogdependency.html" class="tsd-signature-type">DatadogDependency</a></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -96,10 +87,11 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dependency.dependency-2.html#dependencies" class="tsd-kind-icon">dependencies</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dependency.dependency-2.html#intervalms" class="tsd-kind-icon">interval<wbr>Ms</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dependency.dependency-2.html#name" class="tsd-kind-icon">name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="dependency.dependency-2.html#resolver" class="tsd-kind-icon">resolver</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="server_app_components.buttonprops.html#assubmit" class="tsd-kind-icon">as<wbr>Submit</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="server_app_components.buttonprops.html#disabled" class="tsd-kind-icon">disabled</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="server_app_components.buttonprops.html#large" class="tsd-kind-icon">large</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="server_app_components.buttonprops.html#onclick" class="tsd-kind-icon">on<wbr>Click</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="server_app_components.buttonprops.html#small" class="tsd-kind-icon">small</a></li>
 							</ul>
 						</section>
 					</div>
@@ -108,80 +100,90 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="dependencies" class="tsd-anchor"></a>
-					<h3>dependencies</h3>
-					<div class="tsd-signature tsd-kind-icon">dependencies<span class="tsd-signature-symbol">:</span> <a href="dependency.dependency-2.html" class="tsd-signature-type">Dependency</a><span class="tsd-signature-symbol">[]</span></div>
+					<a name="assubmit" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> as<wbr>Submit</h3>
+					<div class="tsd-signature tsd-kind-icon">as<wbr>Submit<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TheDahv/circuit-breaker/blob/2b63ba3/src/dependency/dependency.ts#L32">src/dependency/dependency.ts:32</a></li>
+							<li>Defined in <a href="https://github.com/TheDahv/circuit-breaker/blob/2b63ba3/src/app/components/Button.tsx#L20">src/app/components/Button.tsx:20</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>dependencies are child-dependencies that this dependency may depend on</p>
+							<p>When true, renders a <code>&lt;button /&gt;</code> node that can submit a form rather than
+							using an input tag.</p>
+						</div>
+						<p>See <a href="https://materializecss.com/buttons.html#submit">Materialize
+							documentation</a> for more
+						information.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="disabled" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> disabled</h3>
+					<div class="tsd-signature tsd-kind-icon">disabled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/TheDahv/circuit-breaker/blob/2b63ba3/src/app/components/Button.tsx#L26">src/app/components/Button.tsx:26</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>When true, sets the disabled visual variant as well as configuring the DOM
+							component as disabled.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="intervalms" class="tsd-anchor"></a>
-					<h3>interval<wbr>Ms</h3>
-					<div class="tsd-signature tsd-kind-icon">interval<wbr>Ms<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="large" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> large</h3>
+					<div class="tsd-signature tsd-kind-icon">large<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TheDahv/circuit-breaker/blob/2b63ba3/src/dependency/dependency.ts#L28">src/dependency/dependency.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/TheDahv/circuit-breaker/blob/2b63ba3/src/app/components/Button.tsx#L35">src/app/components/Button.tsx:35</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>intervalMs defines how often to check a dependency in milliseconds</p>
+							<p>When true, renders a variant with a larger height for buttons that need
+							more attention.</p>
+						</div>
+						<p>See <a href="https://materializecss.com/buttons.html#large">Materialize
+							documentation</a> for more
+						information.</p>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="onclick" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> on<wbr>Click</h3>
+					<div class="tsd-signature tsd-kind-icon">on<wbr>Click<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">React.MouseEventHandler</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/TheDahv/circuit-breaker/blob/2b63ba3/src/app/components/Button.tsx#L39">src/app/components/Button.tsx:39</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>An optional handler to run when a user clicks on the button.</p>
 						</div>
 					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="name" class="tsd-anchor"></a>
-					<h3>name</h3>
-					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="small" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> small</h3>
+					<div class="tsd-signature tsd-kind-icon">small<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/TheDahv/circuit-breaker/blob/2b63ba3/src/dependency/dependency.ts#L17">src/dependency/dependency.ts:17</a></li>
+							<li>Defined in <a href="https://github.com/TheDahv/circuit-breaker/blob/2b63ba3/src/app/components/Button.tsx#L47">src/app/components/Button.tsx:47</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>name is an identifier for the dependency</p>
+							<p>When true, renders a smaller variant for denser UI layouts.</p>
 						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="resolver" class="tsd-anchor"></a>
-					<h3>resolver</h3>
-					<div class="tsd-signature tsd-kind-icon">resolver<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/TheDahv/circuit-breaker/blob/2b63ba3/src/dependency/dependency.ts#L24">src/dependency/dependency.ts:24</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>resolver is an asynchronous function that determines if our dependency is
-							healthy.</p>
-						</div>
-						<p>It will return false if any of its dependencies is also not healthy.</p>
-					</div>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
-									</li>
-								</ul>
-							</li>
-						</ul>
+						<p>See <a href="https://materializecss.com/buttons.html#small">Materialize
+							documentation</a> for more
+						information.</p>
 					</div>
 				</section>
 			</section>
@@ -195,7 +197,7 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_src_main_.html">&quot;src/main&quot;</a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/dependency.html">dependency</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -204,7 +206,7 @@
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/manager.html">manager</a>
 					</li>
-					<li class=" tsd-kind-external-module">
+					<li class="current tsd-kind-external-module">
 						<a href="../modules/server_app_components.html">server/app/components</a>
 					</li>
 					<li class=" tsd-kind-external-module">
@@ -223,38 +225,32 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-reference tsd-parent-kind-external-module">
-						<a href="../modules/dependency.html#datadog" class="tsd-kind-icon">Datadog</a>
-					</li>
-					<li class=" tsd-kind-reference tsd-parent-kind-external-module">
-						<a href="../modules/dependency.html#dependency-1" class="tsd-kind-icon">Dependency</a>
-					</li>
-					<li class=" tsd-kind-reference tsd-parent-kind-external-module">
-						<a href="../modules/dependency.html#ishealthy" class="tsd-kind-icon">is<wbr>Healthy</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="dependency.dependency-2.html" class="tsd-kind-icon">Dependency</a>
+						<a href="server_app_components.buttonprops.html" class="tsd-kind-icon">Button<wbr>Props</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="dependency.dependency-2.html#dependencies" class="tsd-kind-icon">dependencies</a>
+								<a href="server_app_components.buttonprops.html#assubmit" class="tsd-kind-icon">as<wbr>Submit</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="dependency.dependency-2.html#intervalms" class="tsd-kind-icon">interval<wbr>Ms</a>
+								<a href="server_app_components.buttonprops.html#disabled" class="tsd-kind-icon">disabled</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="dependency.dependency-2.html#name" class="tsd-kind-icon">name</a>
+								<a href="server_app_components.buttonprops.html#large" class="tsd-kind-icon">large</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="dependency.dependency-2.html#resolver" class="tsd-kind-icon">resolver</a>
+								<a href="server_app_components.buttonprops.html#onclick" class="tsd-kind-icon">on<wbr>Click</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="server_app_components.buttonprops.html#small" class="tsd-kind-icon">small</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-function tsd-parent-kind-external-module">
-						<a href="../modules/dependency.html#ishealthy-1" class="tsd-kind-icon">is<wbr>Healthy</a>
+						<a href="../modules/server_app_components.html#button" class="tsd-kind-icon">Button</a>
 					</li>
 				</ul>
 			</nav>
