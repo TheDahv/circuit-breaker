@@ -51,8 +51,19 @@ interface ButtonProps {
 /**
  * A Button component implementing Materialize CSS
  * [Buttons](https://materializecss.com/buttons.html)
+ *
+ * Example:
+ *
+ * ```jsx
+ * <Button
+ *   large
+ *   onClick={(evt) => console.log({ log: 'I was clicked', evt })
+ * >
+ *   Click Me
+ * </Button>
+ * ```
  */
-const Button = (props: ButtonProps) => {
+export default function Button (props: ButtonProps) {
   const className = [
     'btn waves-effect waves-light',
     coalesceFalsey(props.disabled) ? 'disabled' : '',
@@ -80,8 +91,6 @@ const Button = (props: ButtonProps) => {
 }
 
 Button.displayName = 'Button'
-
-export default Button
 
 function coalesceFalsey (falsey?: boolean): boolean {
   // Note, this exists, but I can't figure out how to get prettier-standard to
